@@ -1,0 +1,12 @@
+# require:
+#   - rubocop-performance
+#   - rubocop-rails
+
+Style/Documentation:
+  Description: 'Document classes and non-namespace modules.'
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Description: >-
+                 Add the frozen_string_literal comment to the top of files
+                 to help transition to frozen string literals by default.
+  Enabled: false
