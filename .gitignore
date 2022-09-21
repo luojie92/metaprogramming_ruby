@@ -64,4 +64,3 @@ yarn-debug.log*
 !/storage/.keep
 
 db/schema.rb
-.ruby-version
