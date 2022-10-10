@@ -29,3 +29,61 @@ MySubClass.ancestors
 
 # Kernel为什么会在祖先链，Kernel.class是Module
 Kernel.class
+
+# 祖先链是从类开始，其超类结束；
+# 祖先链也包含模块；
+
+module M1
+  def my_method
+    'M1#my_method()'
+  end
+end
+
+# include时，Ruby会把模块加入到该类的祖先链中，位置在包含他的类之上；
+class C
+  include M1
+end
+C.ancestors
+
+class D < C
+end
+D.ancestors
+
+# prepend时，Ruby会把模块加入到该类的祖先链中，位置在包含他的类之下；
+class C2
+  prepend M1
+end
+C2.ancestors
+
+# 所以前面的Kernel模块出现在祖先链中，实际是：
+=begin
+
+  class Object < BasicObject
+    include Kernel
+  end
+
+=end
+
+# 如果试图在某个类中，多次加入同一模块，会发生什么
+
+module M2
+  include M1
+end
+M2.ancestors
+
+module M3
+  include M2
+end
+M3.ancestors
+
+module M4
+  prepend M1
+end
+M4.ancestors
+
+module M5
+  prepend M1
+  include M2
+end
+M5.ancestors
+# 会发现，每次include和prepend时，如果该模块已经存在于祖先链中，那么Ruby会忽略这个include和prepend命令；
