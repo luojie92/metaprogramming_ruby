@@ -87,3 +87,19 @@ module M5
 end
 M5.ancestors
 # 会发现，每次include和prepend时，如果该模块已经存在于祖先链中，那么Ruby会忽略这个include和prepend命令；
+
+# Kernel模块 内核方法 如：print
+
+Kernel.private_instance_methods.grep(/^pr/)
+
+# 如print方法可以随时随地的进行调用，是因为Object类包含了Kernel模块
+
+# irb中当前对象的类是Object
+self.class
+
+# 可以尝试添加一个内核方法
+module Kernel
+  def tt
+    puts 'tt()'
+  end
+end
