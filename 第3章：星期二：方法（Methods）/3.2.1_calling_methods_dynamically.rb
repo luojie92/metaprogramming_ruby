@@ -33,3 +33,37 @@ obj.send(:my_method, 4)
 'x'.object_id
 
 :x.object_id
+
+# 私有性的问题：send过于强大，Object#send方法可以调用任何方法，包括私有方法
+
+class Myclass
+  def my_method(my_arg)
+    my_arg * 2
+  end
+
+  private
+
+  def my_private_method(my_arg)
+    my_arg * 3
+  end
+end
+obj = Myclass.new
+obj.my_method(2)
+# => 4 
+obj.my_private_method(2)
+# NoMethodError (private method `my_private_method' calle for ..
+
+obj.send(:my_method, 2)
+# => 4 
+obj.send(:my_private_method, 2)
+# => 6
+
+# 如果不想破坏封装，可以用 public_send
+obj.public_send(:my_method, 2)
+# => 4 
+obj.public_send(:my_private_method, 2)
+# NoMethodError (private method `my_private_method' calle for ..
+
+
+
+
